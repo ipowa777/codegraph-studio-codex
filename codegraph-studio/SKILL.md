@@ -1,13 +1,13 @@
 ---
 name: codegraph-studio
-description: Use when installing, auditing, or operating CodeGraph Studio in a software project: local project map, GraphView, security gates, access surfaces, AI agent registry, sub-agent handoff packets, impact analysis, docs cleanup, CI checks, and compact Codex context generation.
+description: Use when installing, auditing, or operating CodeGraph Studio in a software project: local project map, GraphView, preflight before sensitive changes, security gates, access surfaces, AI agent registry, sub-agent handoff packets, impact analysis, docs cleanup, CI checks, MCP access, incremental scan cache, and compact Codex context generation.
 metadata:
   short-description: Project map, risk gates, GraphView, and compact Codex context
 ---
 
 # CodeGraph Studio
 
-Use this skill when the user wants to install or operate CodeGraph Studio in a project, improve development safety, reduce context/token usage, audit public/private/admin/monitoring surfaces, manage AI agents or sub-agents, or prepare CI gates around risky changes.
+Use this skill when the user wants to install or operate CodeGraph Studio in a project, improve development safety, reduce context/token usage, audit public/private/admin/monitoring surfaces, manage AI agents or sub-agents, run a preflight before risky changes, expose a local MCP interface, or prepare CI gates around risky changes.
 
 ## Core Rule
 
@@ -20,11 +20,12 @@ Stay project-neutral. Do not mention or copy references to any source project, c
 3. Do a Phase 0 audit before installing code: P0/P1/P2 risks, docs inventory, dead code candidates, dependency/config issues, and access surfaces.
 4. Fix P0 and P1 blockers before a full integration. If they cannot be fixed, install CodeGraph in read-only mode and mark the project as not healthy.
 5. Install or adapt a local scanner that writes `.project-map/` and never sends code or secrets outside the workspace.
-6. Add scripts equivalent to `codegraph:scan`, `codegraph:security`, `codegraph:query`, `codegraph:impact`, `codegraph:baseline`, `codegraph:diff`, `codegraph:ci`, and `codegraph:github`.
+6. Add scripts equivalent to `codegraph:scan`, `codegraph:security`, `codegraph:query`, `codegraph:impact`, `codegraph:preflight`, `codegraph:baseline`, `codegraph:diff`, `codegraph:ci`, `codegraph:github`, and optionally `codegraph:mcp`.
 7. Generate compact contexts: `.project-map/ai-context.md`, `.project-map/codex-context.md`, and targeted `.project-map/handoff-packets/`.
-8. Add CI gates for new blockers, unguarded private routes, exposed admin/monitoring surfaces, missing noindex, secrets, webhooks, payments, AI costs, and autonomous agents without limits.
-9. Validate with the target project's normal test/build commands plus CodeGraph scan/security/ci.
-10. Update the target roadmap or technical log after each validated step.
+8. Add `.project-map/preflight.md` and `.project-map/preflight.json` before sensitive changes, with required files, blockers, warnings, validation commands, and estimated context tokens.
+9. Add CI gates for new blockers, unguarded private routes, exposed admin/monitoring surfaces, missing noindex, secrets, webhooks, payments, AI costs, and autonomous agents without limits.
+10. Validate with the target project's normal test/build commands plus CodeGraph scan/security/preflight/ci.
+11. Update the target roadmap or technical log after each validated step.
 
 ## When To Load References
 
@@ -39,6 +40,7 @@ Stay project-neutral. Do not mention or copy references to any source project, c
 - Never version `.project-map/` by default.
 - Never delete files without explicit user validation.
 - Keep generated AI contexts short and source-linked.
+- Run `codegraph:preflight` before sensitive changes and read only the files it names first.
 - Give sub-agents only the smallest handoff packet needed.
 - Treat public, user-private, admin-private, monitoring-private, and system surfaces separately.
 - Human validation is required for destructive, payment, production, mass email, external publication, or irreversible actions.

@@ -1,8 +1,8 @@
 interface:
   display_name: "CodeGraph Studio"
-  short_description: "Project map, risk gates, GraphView, and compact context"
+  short_description: "Project map, preflight, risk gates, GraphView, MCP, and compact context"
   brand_color: "#167D6B"
-  default_prompt: "Use $codegraph-studio to audit this project and install a local CodeGraph Studio workflow."
+  default_prompt: "Use $codegraph-studio to audit this project and install a local CodeGraph Studio workflow with preflight and compact AI context."
 
 policy:
   allow_implicit_invocation: true
